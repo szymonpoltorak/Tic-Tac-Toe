@@ -3,7 +3,7 @@ package program.tictactoe;
 import static program.tictactoe.Constants.*;
 
 public class Board {
-    private int[] positions;
+    private final int[] positions;
 
     public Board(){
         this.positions = new int[9];

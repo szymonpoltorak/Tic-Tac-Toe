@@ -17,10 +17,8 @@ public class MainController {
     public Label resultLabel;
     @FXML
     public Button resetButton;
-    private Image circle; //TODO przerzucic do innej klasy
-    private Image cross; //TODO przerzucic do innej klasy
     private Image blank;
-    private boolean[] used; //to zostało zmienione z int[]
+    private boolean[] used;
     private ImageView[] images;
     private Board board;
     @FXML
@@ -29,14 +27,12 @@ public class MainController {
     private GridPane gameBoard;
 
     public void initialize(){
-        circle = new Image(Objects.requireNonNull(getClass().getResource("img/circle.png")).toString());
-        cross = new Image(Objects.requireNonNull(getClass().getResource("img/cross.png")).toString());
         blank = new Image(Objects.requireNonNull(getClass().getResource("img/blank.png")).toString());
         used = new boolean[9];
         board = new Board();
         images = new ImageView[9];
 
-        MainController.gridInit(images, gameBoard, blank); //zabrano stad petle
+        MainController.gridInit(images, gameBoard, blank);
 
         gameBoard.setOnMouseClicked(event -> {
             Node source = (Node) event.getTarget();
@@ -46,22 +42,11 @@ public class MainController {
                 resultLabel.setText("THIS PLACE WAS ALREADY TAKEN !!!");
                 return;
             }
-/*
-            images[index].setImage(circle);
-            board.setPosition(index, CIRCLE);
-            used[index] = true;
-*/
-            Moves.makeUserMove(circle, images, index, board, used);
 
+            Moves.makeUserMove(images, index, board, used);
             Results.checkIfResulted(board, used);
 
-            Moves.makeComputerMove(board, images, cross, used);
-/*
-            int bestIndex = Board.getBestMove(board, CROSS);
-            images[bestIndex].setImage(cross);
-            board.setPosition(bestIndex, CROSS);
-            used[bestIndex] = true;
- */
+            Moves.makeComputerMove(board, images, used);
             Results.checkIfResulted(board, used);
         });
     }
