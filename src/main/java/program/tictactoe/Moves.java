@@ -12,7 +12,7 @@ public class Moves {
         used[index] = true;
     }
 
-    public static void makeComputerMove(Board board, ImageView[] images, Image cross, boolean[] used){
+    public static void makeComputerMove(Board board, ImageView[] images, Image cross, boolean[] used){//TODO SPRAWDZAC PLANSZE
         int bestIndex = Board.getBestMove(board, CROSS);
 
         if (used[bestIndex]){

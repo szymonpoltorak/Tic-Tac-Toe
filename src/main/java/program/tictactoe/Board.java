@@ -41,7 +41,7 @@ public class Board {
 
             Board child = new Board(board);
             child.setPosition(i, player);
-            float eval = Minimax.minimax(child, 9, true);
+            float eval = Minimax.minimax(child, 9, CROSS_PLAYER);
 
             System.out.println(child.toString() + " Eval: " + eval + "  Variant: " + i +  "\n");
             System.out.println("\n\n----------------------------------\n\n");

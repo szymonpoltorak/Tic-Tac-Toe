@@ -25,7 +25,6 @@ public class Results {
                     continue columns;
                 }
             }
-
             return columnPlayer;
         }
 
@@ -76,16 +75,16 @@ public class Results {
         return 0;
     }
 
-    public static boolean ifGameIsOver(Board board){
-        if (Results.isResulted(board) == 0){
-            return false;
-        }
-
+    public static boolean isGameBoardFull(Board board){
         for (int position : board.getPositions()){
             if (position == 0){
                 return false;
             }
         }
         return true;
+    }
+
+    public static boolean ifGameIsOver(Board board){
+        return isGameBoardFull(board) || isResulted(board) != 0;
     }
 }
