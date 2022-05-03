@@ -1,19 +1,17 @@
 package program.tictactoe;
 
+import static program.tictactoe.Constants.*;
+
 public class Board {
     private int[] positions;
 
     public Board(){
         this.positions = new int[9];
-
-        for (int i = 0; i < 9; i++){
-            positions[i] = -1;
-        }
     }
 
     public Board(Board board){
-        this.positions = new int[9];
-        System.arraycopy(board.getPositions(), 0, this.positions, 0, 9);
+        this.positions = new int[board.getPositions().length];
+        System.arraycopy(board.getPositions(), 0, this.positions, 0, board.getPositions().length);
     }
 
     public int getPosition(int index) {
@@ -32,11 +30,35 @@ public class Board {
         positions[index] = player;
     }
 
-    public Board[] makeChildren(int player){ //TODO dodac poprawne tworzenie dzieci
+    public static int getBestMove(Board board, int player) {
+        float max = -Float.MAX_VALUE;
+        int bestPosition = -1;
+
+        for (int i = 0; i < board.getPositions().length; i++) {
+            if(board.getPosition(i) != 0) {
+                continue;
+            }
+
+            Board child = new Board(board);
+            child.setPosition(i, player);
+            float eval = Minimax.minimax(child, 9, true);
+
+            System.out.println(child.toString() + " Eval: " + eval + "  Variant: " + i +  "\n");
+            System.out.println("\n\n----------------------------------\n\n");
+
+            if (max < eval) {
+                max = eval;
+                bestPosition = i;
+            }
+        }
+        return bestPosition;
+    }
+
+    public Board[] makeChildren(int player){
         int blankSquares = 0;
 
         for (int position : positions) {
-            if (position == -1) {
+            if (position == 0) {
                 blankSquares++;
             }
         }
@@ -44,11 +66,24 @@ public class Board {
         Board[] children = new Board[blankSquares];
         for (int i = 0, j = 0; i < positions.length; i++){
             if (positions[i] == 0){
-                children[++j] = new Board(this);
-                children[j].setPosition(i, player);
+                children[j] = new Board(this);
+                children[j++].setPosition(i, player);
             }
         }
 
         return children;
+    }
+
+    private String prettyPos(int i) {
+        return positions[i] == 0 ? " " : (positions[i] == CIRCLE ? "O" : "X");
+    }
+
+    @Override
+    public String toString() {
+        return  "[ "+prettyPos(0)+" | "+prettyPos(1)+" | "+prettyPos(2)+" ]\n" +
+                "-------------\n" +
+                "[ "+prettyPos(3)+" | "+prettyPos(4)+" | "+prettyPos(5)+" ]\n" +
+                "-------------\n" +
+                "[ "+prettyPos(6)+" | "+prettyPos(7)+" | "+prettyPos(8)+" ]\n";
     }
 }
