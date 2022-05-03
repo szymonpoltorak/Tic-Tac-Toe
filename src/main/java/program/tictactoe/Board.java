@@ -1,5 +1,8 @@
 package program.tictactoe;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 import static program.tictactoe.Constants.*;
 
 public class Board {
@@ -9,7 +12,7 @@ public class Board {
         this.positions = new int[9];
     }
 
-    public Board(Board board){
+    public Board(@NotNull Board board){
         this.positions = new int[board.getPositions().length];
         System.arraycopy(board.getPositions(), 0, this.positions, 0, board.getPositions().length);
     }
@@ -22,6 +25,10 @@ public class Board {
         return positions;
     }
 
+    public void resetPosition(int index){
+        this.positions[index] = 0;
+    }
+
     public void setPosition(int index, int player) {
         if (positions[index] != 0){
             throw new IllegalArgumentException("Position not found!");
@@ -30,7 +37,7 @@ public class Board {
         positions[index] = player;
     }
 
-    public static int getBestMove(Board board, int player) {
+    public static int getBestMove(@NotNull Board board, int player) {
         float max = -Float.MAX_VALUE;
         int bestPosition = -1;
 
@@ -42,9 +49,6 @@ public class Board {
             Board child = new Board(board);
             child.setPosition(i, player);
             float eval = Minimax.minimax(child, 9, CROSS_PLAYER);
-
-            System.out.println(child.toString() + " Eval: " + eval + "  Variant: " + i +  "\n");
-            System.out.println("\n\n----------------------------------\n\n");
 
             if (max < eval) {
                 max = eval;
@@ -74,7 +78,8 @@ public class Board {
         return children;
     }
 
-    private String prettyPos(int i) {
+    @Contract(pure = true)
+    private @NotNull String prettyPos(int i) {
         return positions[i] == 0 ? " " : (positions[i] == CIRCLE ? "O" : "X");
     }
 

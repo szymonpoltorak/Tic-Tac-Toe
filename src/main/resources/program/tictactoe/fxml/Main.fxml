@@ -21,8 +21,8 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
       </GridPane>
-      <Label fx:id="titleLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="99.0" layoutY="32.0" prefHeight="70.0" prefWidth="638.0" text="Welcome to the game" />
+      <Label fx:id="titleLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="99.0" layoutY="32.0" prefHeight="70.0" prefWidth="638.0" />
       <Button fx:id="resetButton" layoutX="633.0" layoutY="516.0" mnemonicParsing="false" onAction="#resetBoard" prefHeight="47.0" prefWidth="109.0" text="Reset" />
-      <Label fx:id="resultLabel" alignment="CENTER" layoutX="94.0" layoutY="516.0" prefHeight="70.0" prefWidth="451.0" text="Here will be your result" />
+      <Label fx:id="resultLabel" alignment="CENTER" layoutX="94.0" layoutY="516.0" prefHeight="70.0" prefWidth="451.0" />
    </children>
 </AnchorPane>

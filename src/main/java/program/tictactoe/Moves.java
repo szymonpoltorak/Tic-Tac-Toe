@@ -2,13 +2,14 @@ package program.tictactoe;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
 import static program.tictactoe.Constants.*;
 
 public class Moves {
-    public static void makeUserMove(ImageView[] images, int index, Board board, boolean[] used){
+    public static void makeUserMove(ImageView @NotNull [] images, int index, @NotNull Board board, boolean @NotNull [] used){
         Image circle = new Image(Objects.requireNonNull(MainController.class.getResource("img/circle.png")).toString());
         images[index].setImage(circle);
         board.setPosition(index, CIRCLE);

@@ -1,13 +1,33 @@
 package program.tictactoe;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+import org.jetbrains.annotations.NotNull;
+
+import static program.tictactoe.Constants.*;
+
 public class Results {
-    public static void checkIfResulted(Board board, boolean[] used){
-        if (Results.isResulted(board) > 0){ //TODO poprawić tę funkcję aby wyświetlała wynik
+    public static void checkIfResulted(Board board, boolean[] used, Label resultLabel, ImageView[] images){
+        int result = Results.isResulted(board);
+
+        if (result > 0){
             for (int i = 0; i < used.length; i++){
                 if (!used[i]){
                     used[i] = true;
                 }
             }
+        }
+        Alert info = new Alert(Alert.AlertType.INFORMATION);
+
+        if (result == 0 && ifGameIsOver(board)){
+            ResultEvent.drawResult(info, resultLabel);
+        }
+        if (result == CROSS && ifGameIsOver(board)){
+            ResultEvent.loseResult(info, resultLabel);
+        }
+        if (result == CIRCLE && ifGameIsOver(board)){
+            ResultEvent.winResult(info, resultLabel);
         }
     }
 
@@ -75,7 +95,7 @@ public class Results {
         return 0;
     }
 
-    public static boolean isGameBoardFull(Board board){
+    public static boolean isGameBoardFull(@NotNull Board board){
         for (int position : board.getPositions()){
             if (position == 0){
                 return false;

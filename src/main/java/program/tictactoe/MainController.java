@@ -8,9 +8,11 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
-
 
 public class MainController {
     @FXML
@@ -32,26 +34,35 @@ public class MainController {
         board = new Board();
         images = new ImageView[9];
 
+        resultLabel.setFont(new Font("Arial", 20));
+        titleLabel.setFont(new Font("Arial", 45));
+        titleLabel.setText("Let's play a game!");
         MainController.gridInit(images, gameBoard, blank);
 
         gameBoard.setOnMouseClicked(event -> {
             Node source = (Node) event.getTarget();
             int index = 3 * GridPane.getRowIndex(source) + GridPane.getColumnIndex(source);
 
-            if (used[index]){
-                resultLabel.setText("THIS PLACE WAS ALREADY TAKEN !!!");
+            if (used[index] && !Results.ifGameIsOver(board)){
+                resultLabel.setText("THIS PLACE WAS ALREADY TAKEN !");
+                resultLabel.setTextFill(Color.RED);
+                return;
+            }
+            if (used[index] && Results.ifGameIsOver(board)){
+                resultLabel.setText("GAME IS OVER!");
+                resultLabel.setTextFill(Color.RED);
                 return;
             }
 
             Moves.makeUserMove(images, index, board, used);
-            Results.checkIfResulted(board, used);
+            Results.checkIfResulted(board, used, resultLabel, images);
 
             Moves.makeComputerMove(board, images, used);
-            Results.checkIfResulted(board, used);
+            Results.checkIfResulted(board, used, resultLabel, images);
         });
     }
 
-    public static void gridInit(ImageView[] images, GridPane gameBoard, Image blank){
+    public static void gridInit(ImageView @NotNull [] images, GridPane gameBoard, Image blank){
         for (int i = 0; i < images.length; i++){
             images[i] = new ImageView();
             images[i].setImage(blank);
@@ -60,7 +71,13 @@ public class MainController {
         gameBoard.setGridLinesVisible(true);
     }
 
-    public void resetBoard(ActionEvent actionEvent) { //TODO resetowanie planszy
+    public void resetBoard(ActionEvent actionEvent) {
+        resultLabel.setText("");
 
+        for (int i = 0; i < used.length; i++){
+            used[i] = false;
+            images[i].setImage(blank);
+            board.resetPosition(i);
+        }
     }
 }
