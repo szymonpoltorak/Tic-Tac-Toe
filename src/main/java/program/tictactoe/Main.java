@@ -17,6 +17,7 @@ public class Main extends Application {
 
         stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResource("img/icon.png")).toString()));
         stage.setTitle("Tic-Tac-Toe");
+        stage.setResizable(false);
 
         stage.setScene(scene);
         stage.show();
