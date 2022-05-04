@@ -37,27 +37,6 @@ public class Board {
         positions[index] = player;
     }
 
-    public static int getBestMove(@NotNull Board board, int player) {
-        float max = -Float.MAX_VALUE;
-        int bestPosition = -1;
-
-        for (int i = 0; i < board.getPositions().length; i++) {
-            if(board.getPosition(i) != 0) {
-                continue;
-            }
-
-            Board child = new Board(board);
-            child.setPosition(i, player);
-            float eval = Minimax.minimax(child, 9, CROSS_PLAYER);
-
-            if (max < eval) {
-                max = eval;
-                bestPosition = i;
-            }
-        }
-        return bestPosition;
-    }
-
     public Board[] makeChildren(int player){
         int blankSquares = 0;
 

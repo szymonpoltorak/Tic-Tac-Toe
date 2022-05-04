@@ -18,7 +18,7 @@ public class Moves {
 
     public static void makeComputerMove(Board board, ImageView[] images, boolean[] used){
         Image cross = new Image(Objects.requireNonNull(MainController.class.getResource("img/cross.png")).toString());
-        int bestIndex = Board.getBestMove(board, CROSS);
+        int bestIndex = Minimax.getBestMove(board, CROSS);
 
         if (bestIndex == -1 || used[bestIndex]){
             return;
