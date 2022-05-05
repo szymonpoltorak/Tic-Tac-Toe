@@ -1,6 +1,6 @@
 package program.tictactoe;
 
-public abstract class Constants {
+public class Constants {
     public final static int CIRCLE = 1;
     public final static int CROSS = 2;
 

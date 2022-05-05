@@ -3,6 +3,8 @@ package program.tictactoe;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+
 import static program.tictactoe.Constants.*;
 
 public class Board {
@@ -69,5 +71,19 @@ public class Board {
                 "[ "+prettyPos(3)+" | "+prettyPos(4)+" | "+prettyPos(5)+" ]\n" +
                 "-------------\n" +
                 "[ "+prettyPos(6)+" | "+prettyPos(7)+" | "+prettyPos(8)+" ]\n";
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object){
+            return true;
+        }
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+
+        Board board = (Board) object;
+
+        return Arrays.equals(positions, board.positions);
     }
 }
