@@ -4,8 +4,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.xml.transform.Result;
-
 import static program.tictactoe.Constants.CIRCLE;
 import static program.tictactoe.Constants.CROSS;
 
