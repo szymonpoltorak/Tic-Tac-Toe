@@ -1,11 +1,9 @@
-package program.tictactoe;
+package pl.edu.pw.ee.tictactoe;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
-
-import static program.tictactoe.Constants.*;
 
 public class Board {
     private final int[] positions;
@@ -61,7 +59,7 @@ public class Board {
 
     @Contract(pure = true)
     private @NotNull String prettyPos(int i) {
-        return positions[i] == 0 ? " " : (positions[i] == CIRCLE ? "O" : "X");
+        return positions[i] == 0 ? " " : (positions[i] == Constants.CIRCLE ? "O" : "X");
     }
 
     @Override

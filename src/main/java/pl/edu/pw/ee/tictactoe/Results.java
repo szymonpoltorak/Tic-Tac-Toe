@@ -1,14 +1,14 @@
-package program.tictactoe;
+package pl.edu.pw.ee.tictactoe;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import org.jetbrains.annotations.NotNull;
 
-import static program.tictactoe.Constants.*;
-
 public class Results {
-    public static void checkIfResulted(Board board, boolean[] used, Label resultLabel, ImageView[] images){
+    private Results(){}
+
+    public static void checkIfResulted(Board board, boolean[] used, Label resultLabel){
         int result = Results.isResulted(board);
 
         if (result > 0){
@@ -23,10 +23,10 @@ public class Results {
         if (result == 0 && ifGameIsOver(board)){
             ResultEvent.drawResult(info, resultLabel);
         }
-        if (result == CROSS && ifGameIsOver(board)){
+        if (result == Constants.CROSS && ifGameIsOver(board)){
             ResultEvent.loseResult(info, resultLabel);
         }
-        if (result == CIRCLE && ifGameIsOver(board)){
+        if (result == Constants.CIRCLE && ifGameIsOver(board)){
             ResultEvent.winResult(info, resultLabel);
         }
     }

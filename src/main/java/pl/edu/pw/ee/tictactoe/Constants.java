@@ -1,4 +1,4 @@
-package program.tictactoe;
+package pl.edu.pw.ee.tictactoe;
 
 public class Constants {
     public final static int CIRCLE = 1;

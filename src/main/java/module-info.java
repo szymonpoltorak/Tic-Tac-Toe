@@ -4,6 +4,6 @@ module program.tictactoe {
     requires org.jetbrains.annotations;
 
 
-    opens program.tictactoe to javafx.fxml;
-    exports program.tictactoe;
+    opens pl.edu.pw.ee.tictactoe to javafx.fxml;
+    exports pl.edu.pw.ee.tictactoe;
 }

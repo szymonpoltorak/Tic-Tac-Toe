@@ -1,12 +1,12 @@
-package program.tictactoe;
+package pl.edu.pw.ee.tictactoe;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static program.tictactoe.Constants.CROSS;
+import static pl.edu.pw.ee.tictactoe.Constants.CROSS;
 
-public class BoardTest {
+class BoardTest {
     private Board board;
 
     @BeforeEach
@@ -15,7 +15,7 @@ public class BoardTest {
     }
 
     @Test
-    public void setPosition_exception(){
+    void setPosition_exception(){
         //given
         int index = 3;
 
@@ -27,7 +27,7 @@ public class BoardTest {
     }
 
     @Test
-    public void board_constructor_copy_pass(){
+    void board_constructor_copy_pass(){
         //given
 
         //when

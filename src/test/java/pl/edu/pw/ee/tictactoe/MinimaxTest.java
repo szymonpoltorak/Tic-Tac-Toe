@@ -1,12 +1,12 @@
-package program.tictactoe;
+package pl.edu.pw.ee.tictactoe;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static program.tictactoe.Constants.*;
+import static pl.edu.pw.ee.tictactoe.Constants.*;
 
-public class MinimaxTest {
+class MinimaxTest {
     private Board board;
 
     @BeforeEach
@@ -15,7 +15,7 @@ public class MinimaxTest {
     }
 
     @Test
-    public void getBestMove_test(){
+    void getBestMove_test(){
         //given
         int expected = 3;
         board.setPosition(0, CROSS);
@@ -31,7 +31,7 @@ public class MinimaxTest {
     }
 
     @Test
-    public void evaluatePosition_cross_player_wins(){
+    void evaluatePosition_cross_player_wins(){
         //given
         float expected = Float.MAX_VALUE;
         board.setPosition(2, CROSS);
@@ -46,7 +46,7 @@ public class MinimaxTest {
     }
 
     @Test
-    public void evaluatePosition_circle_player_wins(){
+    void evaluatePosition_circle_player_wins(){
         //given
         float expected = Float.MAX_VALUE;
         board.setPosition(2, CIRCLE);
@@ -61,7 +61,7 @@ public class MinimaxTest {
     }
 
     @Test
-    public void evaluatePosition_test_exception(){
+    void evaluatePosition_test_exception(){
         //given
         board.setPosition(2, CIRCLE);
         board.setPosition(4, CIRCLE);

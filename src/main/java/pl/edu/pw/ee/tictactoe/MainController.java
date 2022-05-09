@@ -1,4 +1,4 @@
-package program.tictactoe;
+package pl.edu.pw.ee.tictactoe;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -55,10 +55,10 @@ public class MainController {
             }
 
             Moves.makeUserMove(images, index, board, used);
-            Results.checkIfResulted(board, used, resultLabel, images);
+            Results.checkIfResulted(board, used, resultLabel);
 
             Moves.makeComputerMove(board, images, used);
-            Results.checkIfResulted(board, used, resultLabel, images);
+            Results.checkIfResulted(board, used, resultLabel);
         });
     }
 

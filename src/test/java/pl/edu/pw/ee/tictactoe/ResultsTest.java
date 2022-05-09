@@ -1,13 +1,13 @@
-package program.tictactoe;
+package pl.edu.pw.ee.tictactoe;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static program.tictactoe.Constants.CIRCLE;
-import static program.tictactoe.Constants.CROSS;
+import static pl.edu.pw.ee.tictactoe.Constants.CIRCLE;
+import static pl.edu.pw.ee.tictactoe.Constants.CROSS;
 
-public class ResultsTest {
+class ResultsTest {
     private Board board;
 
     @BeforeEach
@@ -16,9 +16,9 @@ public class ResultsTest {
     }
 
     @Test
-    public void isGameBoardFull_return_false(){
+    void isGameBoardFull_return_false(){
         //given
-        boolean expected = false;
+        var expected = false;
 
         //when
         boolean result = Results.isGameBoardFull(board);
@@ -28,9 +28,9 @@ public class ResultsTest {
     }
 
     @Test
-    public void isGameBoardFull_return_true(){
+    void isGameBoardFull_return_true(){
         //given
-        boolean expected = true;
+        var expected = true;
 
         for (int i = 0; i < board.getPositions().length; i++){
             board.setPosition(i, CIRCLE);
@@ -44,7 +44,7 @@ public class ResultsTest {
     }
 
     @Test
-    public void isResulted_row_player_wins(){
+    void isResulted_row_player_wins(){
         //given
         int expected = CROSS;
         board.setPosition(0, CROSS);
@@ -59,24 +59,24 @@ public class ResultsTest {
     }
 
     @Test
-    public void isResulted_column_player_wins(){
+    void isResulted_column_player_wins(){
         //given
-        int expected = CIRCLE;
+        var expected = CIRCLE;
         board.setPosition(0, CIRCLE);
         board.setPosition(3, CIRCLE);
         board.setPosition(6, CIRCLE);
 
         //when
-        int result = Results.isResulted(board);
+        var result = Results.isResulted(board);
 
         //then
         Assertions.assertEquals(expected, result);
     }
 
     @Test
-    public void isResulted_left_diagonal_player_wins(){
+    void isResulted_left_diagonal_player_wins(){
         //given
-        int expected = CROSS;
+        var expected = CROSS;
         board.setPosition(0, CROSS);
         board.setPosition(4, CROSS);
         board.setPosition(8, CROSS);
@@ -89,9 +89,9 @@ public class ResultsTest {
     }
 
     @Test
-    public void isResulted_right_diagonal_player_wins(){
+    void isResulted_right_diagonal_player_wins(){
         //given
-        int expected = CIRCLE;
+        var expected = CIRCLE;
         board.setPosition(2, CIRCLE);
         board.setPosition(4, CIRCLE);
         board.setPosition(6, CIRCLE);
@@ -104,42 +104,42 @@ public class ResultsTest {
     }
 
     @Test
-    public void ifGameIsOver_true_one_player_won(){
+    void ifGameIsOver_true_one_player_won(){
         //given
-        boolean expected = true;
+        var expected = true;
         board.setPosition(2, CIRCLE);
         board.setPosition(4, CIRCLE);
         board.setPosition(6, CIRCLE);
 
         //when
-        boolean result = Results.ifGameIsOver(board);
+        var result = Results.ifGameIsOver(board);
 
         //then
         Assertions.assertEquals(expected, result);
     }
 
     @Test
-    public void ifGameIsOver_true_board_is_full(){
+    void ifGameIsOver_true_board_is_full(){
         //given
-        boolean expected = true;
+        var expected = true;
         for (int i = 0; i < board.getPositions().length; i++){
             board.setPosition(i, CIRCLE);
         }
 
         //when
-        boolean result = Results.ifGameIsOver(board);
+        var result = Results.ifGameIsOver(board);
 
         //then
         Assertions.assertEquals(expected, result);
     }
 
     @Test
-    public void ifGameIsOver_false(){
+    void ifGameIsOver_false(){
         //given
-        boolean expected = false;
+        var expected = false;
 
         //when
-        boolean result = Results.ifGameIsOver(board);
+        var result = Results.ifGameIsOver(board);
 
         //then
         Assertions.assertEquals(expected, result);
