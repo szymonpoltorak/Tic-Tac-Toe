@@ -46,8 +46,9 @@ public class Board {
             }
         }
 
-        Board[] children = new Board[blankSquares];
-        for (int i = 0, j = 0; i < positions.length; i++){
+        var children = new Board[blankSquares];
+        var j = 0;
+        for (int i = 0; i < positions.length; i++){
             if (positions[i] == 0){
                 children[j] = new Board(this);
                 children[j++].setPosition(i, player);
@@ -69,6 +70,11 @@ public class Board {
                 "[ "+prettyPos(3)+" | "+prettyPos(4)+" | "+prettyPos(5)+" ]\n" +
                 "-------------\n" +
                 "[ "+prettyPos(6)+" | "+prettyPos(7)+" | "+prettyPos(8)+" ]\n";
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(positions);
     }
 
     @Override

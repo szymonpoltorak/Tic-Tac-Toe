@@ -7,16 +7,18 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 public class Moves {
+    private Moves(){}
+
     public static void makeUserMove(ImageView @NotNull [] images, int index, @NotNull Board board, boolean @NotNull [] used){
-        Image circle = new Image(Objects.requireNonNull(MainController.class.getResource("img/circle.png")).toString());
+        var circle = new Image(Objects.requireNonNull(MainController.class.getResource("img/circle.png")).toString());
         images[index].setImage(circle);
         board.setPosition(index, Constants.CIRCLE);
         used[index] = true;
     }
 
     public static void makeComputerMove(Board board, ImageView[] images, boolean[] used){
-        Image cross = new Image(Objects.requireNonNull(MainController.class.getResource("img/cross.png")).toString());
-        int bestIndex = Minimax.getBestMove(board, Constants.CROSS);
+        var cross = new Image(Objects.requireNonNull(MainController.class.getResource("img/cross.png")).toString());
+        var bestIndex = Minimax.getBestMove(board, Constants.CROSS);
 
         if (bestIndex == -1 || used[bestIndex]){
             return;

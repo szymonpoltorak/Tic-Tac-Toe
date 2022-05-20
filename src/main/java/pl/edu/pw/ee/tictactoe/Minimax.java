@@ -11,10 +11,10 @@ public class Minimax {
         }
 
         if (maximizingPlayer == Constants.CIRCLE_PLAYER){
-            float maxEval = -Float.MAX_VALUE;
+            var maxEval = -Float.MAX_VALUE;
 
             for (Board child : board.makeChildren(Constants.CROSS)){
-                float movementEval = minimax(child, depth - 1, alpha, beta, Constants.CROSS_PLAYER);
+                var movementEval = minimax(child, depth - 1, alpha, beta, Constants.CROSS_PLAYER);
                 maxEval = Math.max(maxEval, movementEval);
                 alpha = Math.max(alpha, movementEval);
 
@@ -25,10 +25,10 @@ public class Minimax {
             return maxEval;
         }
         else if (maximizingPlayer == Constants.CROSS_PLAYER) {
-            float minEval = Float.MAX_VALUE;
+            var minEval = Float.MAX_VALUE;
 
             for (Board child : board.makeChildren(Constants.CIRCLE)){
-                float movementEval = minimax(child, depth - 1, alpha, beta, Constants.CIRCLE_PLAYER);
+                var movementEval = minimax(child, depth - 1, alpha, beta, Constants.CIRCLE_PLAYER);
                 minEval = Math.min(minEval, movementEval);
                 beta = Math.min(beta, movementEval);
 
@@ -42,7 +42,7 @@ public class Minimax {
     }
 
     public static float evaluatePosition(Board board, boolean maximizingPlayer){
-        int winner = Results.isResulted(board);
+        var winner = Results.isResulted(board);
 
         if (winner == Constants.CROSS){
             return maximizingPlayer == Constants.CROSS_PLAYER ? Float.MAX_VALUE : -Float.MAX_VALUE;
@@ -58,19 +58,19 @@ public class Minimax {
     }
 
     public static int getBestMove(@NotNull Board board, int player) {
-        float max = -Float.MAX_VALUE;
-        float alpha = -Float.MAX_VALUE;
-        float beta = Float.MAX_VALUE;
-        int bestPosition = -1;
+        var max = -Float.MAX_VALUE;
+        var alpha = -Float.MAX_VALUE;
+        var beta = Float.MAX_VALUE;
+        var bestPosition = -1;
 
         for (int i = 0; i < board.getPositions().length; i++) {
             if(board.getPosition(i) != 0) {
                 continue;
             }
 
-            Board child = new Board(board);
+            var child = new Board(board);
             child.setPosition(i, player);
-            float eval = Minimax.minimax(child, 9, alpha, beta, Constants.CROSS_PLAYER);
+            var eval = Minimax.minimax(child, 9, alpha, beta, Constants.CROSS_PLAYER);
 
             if (max < eval) {
                 max = eval;

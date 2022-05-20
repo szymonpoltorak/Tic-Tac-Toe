@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Aldrich&display=swap')
+
+#titleLabel{
+    -fx-font-family: 'Aldrich', sans-serif;
+    -fx-font-size: 40px;
+    -fx-padding: 10px;
+    -fx-effect: dropshadow(two-pass-box, black, 5, 5, 1, 1);
+    -fx-text-fill: white;
+}
+
+#resetButton{
+    -fx-color: #3db0fc;
+    -fx-font-family: 'Aldrich', sans-serif;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10px;
+}
+
+#resetButton: hover{
+    -fx-color: #34a9f7;
+}
+
+#resetButton: pressed{
+    -fx-color: #56b2f0;
+}
+
+#anchorPane{
+    -fx-background-color: #185680;
+}

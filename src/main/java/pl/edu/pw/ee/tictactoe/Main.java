@@ -15,9 +15,11 @@ public class Main extends Application {
     public void start(@NotNull Stage stage) throws IOException {
         int width = 800;
         int height = 700;
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/Main.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), width, height);
+        var fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/Main.fxml"));
+        var scene = new Scene(fxmlLoader.load(), width, height);
+        var css = Objects.requireNonNull(getClass().getResource("css/style.css")).toExternalForm();
 
+        scene.getStylesheets().add(css);
         stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResource("img/icon.png")).toString()));
         stage.setTitle("Tic-Tac-Toe");
         stage.setResizable(false);

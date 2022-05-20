@@ -3,20 +3,17 @@ package pl.edu.pw.ee.tictactoe;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
 public class MainController {
-    @FXML
-    public Label resultLabel;
     @FXML
     public Button resetButton;
     private Image blank;
@@ -34,31 +31,35 @@ public class MainController {
         board = new Board();
         images = new ImageView[9];
 
-        resultLabel.setFont(new Font("Arial", 20));
-        titleLabel.setFont(new Font("Arial", 45));
-        titleLabel.setText("Let's play a game!");
+        titleLabel.setText("Tic-Tac-Toe");
         MainController.gridInit(images, gameBoard, blank);
 
         gameBoard.setOnMouseClicked(event -> {
-            Node source = (Node) event.getTarget();
-            int index = 3 * GridPane.getRowIndex(source) + GridPane.getColumnIndex(source);
+            var source = (Node) event.getTarget();
+            var index = 3 * GridPane.getRowIndex(source) + GridPane.getColumnIndex(source);
 
             if (used[index] && !Results.ifGameIsOver(board)){
-                resultLabel.setText("THIS PLACE WAS ALREADY TAKEN !");
-                resultLabel.setTextFill(Color.RED);
+                var alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Warning!");
+                alert.setHeaderText("Wrong position");
+                alert.setContentText("This place was already taken! Choose another one!");
+                alert.show();
                 return;
             }
             if (used[index] && Results.ifGameIsOver(board)){
-                resultLabel.setText("GAME IS OVER!");
-                resultLabel.setTextFill(Color.RED);
+                var alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Warning!");
+                alert.setHeaderText("The Game is already over.");
+                alert.setContentText("Please reset the board to play again!");
+                alert.show();
                 return;
             }
 
             Moves.makeUserMove(images, index, board, used);
-            Results.checkIfResulted(board, used, resultLabel);
+            Results.checkIfResulted(board, used);
 
             Moves.makeComputerMove(board, images, used);
-            Results.checkIfResulted(board, used, resultLabel);
+            Results.checkIfResulted(board, used);
         });
     }
 
@@ -72,8 +73,6 @@ public class MainController {
     }
 
     public void resetBoard(ActionEvent actionEvent) {
-        resultLabel.setText("");
-
         for (int i = 0; i < used.length; i++){
             used[i] = false;
             images[i].setImage(blank);
