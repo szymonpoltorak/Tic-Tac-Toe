@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Aldrich&display=swap')
+@import url('https://fonts.googleapis.com/css2?family=Aldrich&display=swap');
 
 #titleLabel{
     -fx-font-family: 'Aldrich', sans-serif;
@@ -16,11 +16,11 @@
     -fx-padding: 10px;
 }
 
-#resetButton: hover{
+#resetButton:hover{
     -fx-color: #34a9f7;
 }
 
-#resetButton: pressed{
+#resetButton:pressed{
     -fx-color: #56b2f0;
 }
 
