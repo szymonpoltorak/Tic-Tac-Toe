@@ -39,19 +39,11 @@ public class MainController {
             var index = 3 * GridPane.getRowIndex(source) + GridPane.getColumnIndex(source);
 
             if (used[index] && !Results.ifGameIsOver(board)){
-                var alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Warning!");
-                alert.setHeaderText("Wrong position");
-                alert.setContentText("This place was already taken! Choose another one!");
-                alert.show();
+                Alerts.pupWrongPositionAlert();
                 return;
             }
             if (used[index] && Results.ifGameIsOver(board)){
-                var alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Warning!");
-                alert.setHeaderText("The Game is already over.");
-                alert.setContentText("Please reset the board to play again!");
-                alert.show();
+                Alerts.popGameOverAlert();
                 return;
             }
 

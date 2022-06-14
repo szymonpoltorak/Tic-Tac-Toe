@@ -85,7 +85,6 @@ public class Board {
         if (object == null || getClass() != object.getClass()) {
             return false;
         }
-
         Board board = (Board) object;
 
         return Arrays.equals(positions, board.positions);
