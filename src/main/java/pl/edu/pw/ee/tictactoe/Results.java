@@ -6,14 +6,12 @@ import org.jetbrains.annotations.NotNull;
 public class Results {
     private Results(){}
 
-    public static void checkIfResulted(Board board, boolean[] used){
+    public static void checkIfResulted(Board board, boolean @NotNull [] used){
         var result = Results.isResulted(board);
 
-        if (result > 0){
-            for (int i = 0; i < used.length; i++){
-                if (!used[i]){
-                    used[i] = true;
-                }
+        for (int i = 0; i < used.length && result > 0; i++){
+            if (!used[i]){
+                used[i] = true;
             }
         }
         var info = new Alert(Alert.AlertType.INFORMATION);
@@ -52,47 +50,43 @@ public class Results {
     }
 
     public static int checkRightDiagonal(@NotNull Board board){
-        int rightDiagonalPlayer = board.getPosition(2);
-        int sameValue = 1;
+        var rowLength = (int) (Math.sqrt(board.getPositions().length));
+        var step = rowLength - 1;
+        var rightDiagonalPlayer = board.getPosition(step);
+        var sameValue = 1;
+        var iterations = rowLength * (rowLength - 1) + 1;
 
-        for (int d = 4; d < 7 && rightDiagonalPlayer != 0; d += 2){
+        for (int d = 2 * step; d < iterations && rightDiagonalPlayer != 0; d += step){
             if (rightDiagonalPlayer != board.getPosition(d)){
                 break;
             }
             sameValue++;
         }
-
-        if (sameValue == 3){
-            return rightDiagonalPlayer;
-        }
-
-        return -1;
+        return sameValue == 3 ? rightDiagonalPlayer : -1;
     }
 
     public static int checkLeftDiagonal(@NotNull Board board){
-        int leftDiagonalPlayer = board.getPosition(0);
-        int sameValue = 1;
+        var step = (int) (Math.sqrt(board.getPositions().length)) + 1;
+        var leftDiagonalPlayer = board.getPosition(0);
+        var sameValue = 1;
 
-        for (int d = 4; d < 9 && leftDiagonalPlayer != 0; d += 4){
+        for (int d = step; d < board.getPositions().length && leftDiagonalPlayer != 0; d += step){
             if (leftDiagonalPlayer != board.getPosition(d)){
                 break;
             }
             sameValue++;
         }
-
-        if (sameValue == 3){
-            return leftDiagonalPlayer;
-        }
-
-        return -1;
+        return sameValue == 3 ? leftDiagonalPlayer : -1;
     }
 
     public static int checkRows(@NotNull Board board){
-        for (int i = 0; i < 9; i += 3) {
+        var rowLength = (int) (Math.sqrt(board.getPositions().length));
+
+        for (int i = 0; i < board.getPositions().length; i += rowLength) {
             var rowsPlayer = board.getPosition(i);
             var temp = -1;
 
-            for (int j = i; j < i + 3; j++) {
+            for (int j = i; j < i + rowLength; j++) {
                 if (rowsPlayer != board.getPosition(j) || rowsPlayer == 0){
                     temp++;
                     break;
@@ -106,11 +100,13 @@ public class Results {
     }
 
     public static int checkColumns(@NotNull Board board){
-        for (int i = 0; i < 3; i++) {
+        var rowLength = (int) (Math.sqrt(board.getPositions().length));
+
+        for (int i = 0; i < rowLength; i++) {
             var columnPlayer = board.getPosition(i);
             var temp = -1;
 
-            for (int j = i; j < 9; j += 3) {
+            for (int j = i; j < board.getPositions().length; j += rowLength) {
                 if (columnPlayer != board.getPosition(j) || columnPlayer == 0){
                     temp++;
                     break;

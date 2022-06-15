@@ -1,6 +1,6 @@
 package pl.edu.pw.ee.tictactoe;
 
-public class Constants {
+public abstract class Constants {
     private Constants(){}
 
     public static final int CIRCLE = 1;
