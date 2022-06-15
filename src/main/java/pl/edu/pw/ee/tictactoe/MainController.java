@@ -31,7 +31,7 @@ public class MainController {
         images = new ImageView[9];
 
         titleLabel.setText("Tic-Tac-Toe");
-        MainController.gridInit(images, gameBoard, blank);
+        MainController.gridInit(images, gameBoard, blank, board.getPositions().length);
 
         gameBoard.setOnMouseClicked(event -> {
             var source = (Node) event.getTarget();
@@ -54,11 +54,13 @@ public class MainController {
         });
     }
 
-    public static void gridInit(ImageView @NotNull [] images, GridPane gameBoard, Image blank){
+    public static void gridInit(ImageView @NotNull [] images, GridPane gameBoard, Image blank, int length){
+        var rowLength = (int) Math.sqrt(length);
+
         for (int i = 0; i < images.length; i++){
             images[i] = new ImageView();
             images[i].setImage(blank);
-            gameBoard.add(images[i], i % 3,i / 3);
+            gameBoard.add(images[i], i % rowLength,i / rowLength);
         }
         gameBoard.setGridLinesVisible(true);
     }
