@@ -1,20 +1,17 @@
 package pl.edu.pw.ee.tictactoe;
 
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import org.jetbrains.annotations.NotNull;
 
 public class Results {
     private Results(){}
 
-    public static void checkIfResulted(Board board, boolean[] used){
+    public static void checkIfResulted(Board board, boolean @NotNull [] used){
         var result = Results.isResulted(board);
 
-        if (result > 0){
-            for (int i = 0; i < used.length; i++){
-                if (!used[i]){
-                    used[i] = true;
-                }
+        for (int i = 0; i < used.length && result > 0; i++){
+            if (!used[i]){
+                used[i] = true;
             }
         }
         var info = new Alert(Alert.AlertType.INFORMATION);
@@ -31,67 +28,95 @@ public class Results {
     }
 
     public static int isResulted(Board board){
-        columns:
-        for (int i = 0; i < 3; i++) {
-            int columnPlayer = board.getPosition(i);
+        var result = 0;
 
-            if (columnPlayer == 0){
-                continue;
-            }
-
-            for (int j = i; j < 9; j += 3) {
-                if (columnPlayer != board.getPosition(j)){
-                    continue columns;
-                }
-            }
-            return columnPlayer;
+        if ((result = Results.checkColumns(board)) != -1){
+            return result;
         }
 
-        rows:
-        for (int i = 0; i < 9; i += 3) {
-            int rowsPlayer = board.getPosition(i);
-
-            if (rowsPlayer == 0){
-                continue;
-            }
-
-            for (int j = i; j < i + 3; j++) {
-                if (rowsPlayer != board.getPosition(j)){
-                    continue rows;
-                }
-            }
-            return rowsPlayer;
+        if ((result = Results.checkRows(board)) != -1){
+            return result;
         }
 
-        int leftDiagonalPlayer = board.getPosition(0);
-        int sameValue = 1;
-
-        for (int d = 4; d < 9 && leftDiagonalPlayer != 0; d += 4){
-            if (leftDiagonalPlayer != board.getPosition(d)){
-                break;
-            }
-            sameValue++;
+        if ((result = Results.checkLeftDiagonal(board)) != -1){
+            return result;
         }
 
-        if (sameValue == 3){
-            return leftDiagonalPlayer;
+        if ((result = Results.checkRightDiagonal(board)) != -1){
+            return result;
         }
 
-        int rightDiagonalPlayer = board.getPosition(2);
-        sameValue = 1;
+        return 0;
+    }
 
-        for (int d = 4; d < 7 && rightDiagonalPlayer != 0; d += 2){
+    public static int checkRightDiagonal(@NotNull Board board){
+        var rowLength = (int) (Math.sqrt(board.getPositions().length));
+        var step = rowLength - 1;
+        var rightDiagonalPlayer = board.getPosition(step);
+        var sameValue = 1;
+        var iterations = rowLength * (rowLength - 1) + 1;
+
+        for (int d = 2 * step; d < iterations && rightDiagonalPlayer != 0; d += step){
             if (rightDiagonalPlayer != board.getPosition(d)){
                 break;
             }
             sameValue++;
         }
+        return sameValue == 3 ? rightDiagonalPlayer : -1;
+    }
 
-        if (sameValue == 3){
-            return rightDiagonalPlayer;
+    public static int checkLeftDiagonal(@NotNull Board board){
+        var step = (int) (Math.sqrt(board.getPositions().length)) + 1;
+        var leftDiagonalPlayer = board.getPosition(0);
+        var sameValue = 1;
+
+        for (int d = step; d < board.getPositions().length && leftDiagonalPlayer != 0; d += step){
+            if (leftDiagonalPlayer != board.getPosition(d)){
+                break;
+            }
+            sameValue++;
         }
+        return sameValue == 3 ? leftDiagonalPlayer : -1;
+    }
 
-        return 0;
+    public static int checkRows(@NotNull Board board){
+        var rowLength = (int) (Math.sqrt(board.getPositions().length));
+
+        for (int i = 0; i < board.getPositions().length; i += rowLength) {
+            var rowsPlayer = board.getPosition(i);
+            var temp = -1;
+
+            for (int j = i; j < i + rowLength; j++) {
+                if (rowsPlayer != board.getPosition(j) || rowsPlayer == 0){
+                    temp++;
+                    break;
+                }
+            }
+            if (temp == -1) {
+                return rowsPlayer;
+            }
+        }
+        return -1;
+    }
+
+    public static int checkColumns(@NotNull Board board){
+        var rowLength = (int) (Math.sqrt(board.getPositions().length));
+
+        for (int i = 0; i < rowLength; i++) {
+            var columnPlayer = board.getPosition(i);
+            var temp = -1;
+
+            for (int j = i; j < board.getPositions().length; j += rowLength) {
+                if (columnPlayer != board.getPosition(j) || columnPlayer == 0){
+                    temp++;
+                    break;
+                }
+            }
+            if (temp == -1) {
+                return columnPlayer;
+            }
+        }
+        return -1;
     }
 
     public static boolean isGameBoardFull(@NotNull Board board){

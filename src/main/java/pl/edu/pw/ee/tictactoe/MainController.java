@@ -3,7 +3,6 @@ package pl.edu.pw.ee.tictactoe;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -32,26 +31,18 @@ public class MainController {
         images = new ImageView[9];
 
         titleLabel.setText("Tic-Tac-Toe");
-        MainController.gridInit(images, gameBoard, blank);
+        MainController.gridInit(images, gameBoard, blank, board.getPositions().length);
 
         gameBoard.setOnMouseClicked(event -> {
             var source = (Node) event.getTarget();
             var index = 3 * GridPane.getRowIndex(source) + GridPane.getColumnIndex(source);
 
             if (used[index] && !Results.ifGameIsOver(board)){
-                var alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Warning!");
-                alert.setHeaderText("Wrong position");
-                alert.setContentText("This place was already taken! Choose another one!");
-                alert.show();
+                Alerts.pupWrongPositionAlert();
                 return;
             }
             if (used[index] && Results.ifGameIsOver(board)){
-                var alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Warning!");
-                alert.setHeaderText("The Game is already over.");
-                alert.setContentText("Please reset the board to play again!");
-                alert.show();
+                Alerts.popGameOverAlert();
                 return;
             }
 
@@ -63,11 +54,13 @@ public class MainController {
         });
     }
 
-    public static void gridInit(ImageView @NotNull [] images, GridPane gameBoard, Image blank){
+    public static void gridInit(ImageView @NotNull [] images, GridPane gameBoard, Image blank, int length){
+        var rowLength = (int) Math.sqrt(length);
+
         for (int i = 0; i < images.length; i++){
             images[i] = new ImageView();
             images[i].setImage(blank);
-            gameBoard.add(images[i], i % 3,i / 3);
+            gameBoard.add(images[i], i % rowLength,i / rowLength);
         }
         gameBoard.setGridLinesVisible(true);
     }

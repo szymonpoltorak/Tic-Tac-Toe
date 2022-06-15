@@ -13,8 +13,8 @@ import java.util.Objects;
 public class Main extends Application {
     @Override
     public void start(@NotNull Stage stage) throws IOException {
-        int width = 800;
-        int height = 700;
+        var width = 1280;
+        var height = 720;
         var fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/Main.fxml"));
         var scene = new Scene(fxmlLoader.load(), width, height);
         var css = Objects.requireNonNull(getClass().getResource("css/style.css")).toExternalForm();

@@ -60,7 +60,10 @@ public class Board {
 
     @Contract(pure = true)
     private @NotNull String prettyPos(int i) {
-        return positions[i] == 0 ? " " : (positions[i] == Constants.CIRCLE ? "O" : "X");
+        if (positions[i] == 0){
+            return " ";
+        }
+        return positions[i] == Constants.CIRCLE ? "O" : "X";
     }
 
     @Override
@@ -85,8 +88,7 @@ public class Board {
         if (object == null || getClass() != object.getClass()) {
             return false;
         }
-
-        Board board = (Board) object;
+        var board = (Board) object;
 
         return Arrays.equals(positions, board.positions);
     }
