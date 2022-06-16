@@ -2,6 +2,8 @@ package pl.edu.pw.ee.tictactoe;
 
 import org.jetbrains.annotations.NotNull;
 
+import static pl.edu.pw.ee.tictactoe.Constants.*;
+
 public class Minimax {
     private Minimax(){}
 
@@ -10,11 +12,11 @@ public class Minimax {
             return Minimax.evaluatePosition(board, maximizingPlayer);
         }
 
-        if (maximizingPlayer == Constants.CIRCLE_PLAYER){
+        if (maximizingPlayer == CIRCLE_PLAYER){
             var maxEval = -Float.MAX_VALUE;
 
-            for (Board child : board.makeChildren(Constants.CROSS)){
-                var movementEval = minimax(child, depth - 1, alpha, beta, Constants.CROSS_PLAYER);
+            for (Board child : board.makeChildren(CROSS)){
+                var movementEval = minimax(child, depth - 1, alpha, beta, CROSS_PLAYER);
                 maxEval = Math.max(maxEval, movementEval);
                 alpha = Math.max(alpha, movementEval);
 
@@ -24,11 +26,11 @@ public class Minimax {
             }
             return maxEval;
         }
-        else if (maximizingPlayer == Constants.CROSS_PLAYER) {
+        else if (maximizingPlayer == CROSS_PLAYER) {
             var minEval = Float.MAX_VALUE;
 
-            for (Board child : board.makeChildren(Constants.CIRCLE)){
-                var movementEval = minimax(child, depth - 1, alpha, beta, Constants.CIRCLE_PLAYER);
+            for (Board child : board.makeChildren(CIRCLE)){
+                var movementEval = minimax(child, depth - 1, alpha, beta, CIRCLE_PLAYER);
                 minEval = Math.min(minEval, movementEval);
                 beta = Math.min(beta, movementEval);
 
@@ -44,11 +46,11 @@ public class Minimax {
     public static float evaluatePosition(Board board, boolean maximizingPlayer){
         var winner = Results.isResulted(board);
 
-        if (winner == Constants.CROSS){
-            return maximizingPlayer == Constants.CROSS_PLAYER ? Float.MAX_VALUE : -Float.MAX_VALUE;
+        if (winner == CROSS){
+            return maximizingPlayer == CROSS_PLAYER ? Float.MAX_VALUE : -Float.MAX_VALUE;
         }
-        else if (winner == Constants.CIRCLE){
-            return maximizingPlayer == Constants.CIRCLE_PLAYER ? -Float.MAX_VALUE : Float.MAX_VALUE;
+        else if (winner == CIRCLE){
+            return maximizingPlayer == CIRCLE_PLAYER ? -Float.MAX_VALUE : Float.MAX_VALUE;
         }
 
         return 0;
@@ -67,7 +69,7 @@ public class Minimax {
 
             var child = new Board(board);
             child.setPosition(i, player);
-            var eval = Minimax.minimax(child, 9, alpha, beta, Constants.CROSS_PLAYER);
+            var eval = Minimax.minimax(child, 9, alpha, beta, CROSS_PLAYER);
 
             if (max < eval) {
                 max = eval;
