@@ -14,6 +14,8 @@ import javafx.scene.layout.RowConstraints;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static pl.edu.pw.ee.tictactoe.Constants.AUTOMATE_MODE;
+import static pl.edu.pw.ee.tictactoe.Constants.MANUAL_MODE;
 import static pl.edu.pw.ee.tictactoe.Images.BLANK_IMAGE;
 
 public class MainController implements Initializable {
@@ -29,6 +31,7 @@ public class MainController implements Initializable {
     @FXML
     private MenuBar menuBar;
     private int sideLength;
+    private Movement move;
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
@@ -38,10 +41,11 @@ public class MainController implements Initializable {
         titleLabel.setText("Tic-Tac-Toe");
         initMenuBar();
         gridInit(size);
+        move = new Movement();
 
         gameBoard.setOnMouseClicked(event -> {
             var source = (Node) event.getTarget();
-            if (source == null){
+            if (!(source instanceof ImageView)){
                 return;
             }
             var index = sideLength * GridPane.getRowIndex(source) + GridPane.getColumnIndex(source);
@@ -55,11 +59,13 @@ public class MainController implements Initializable {
                 return;
             }
 
-            Moves.makeUserMove(images, index, board, used);
+            move.makeUserMove(images, index, board, used);
             Results.checkIfResulted(board, used);
 
-            Moves.makeComputerMove(board, images, used);
-            Results.checkIfResulted(board, used);
+            if (!move.getMode()) {
+                move.makeComputerMove(board, images, used);
+                Results.checkIfResulted(board, used);
+            }
         });
     }
 
@@ -109,11 +115,25 @@ public class MainController implements Initializable {
             bigMenu.getItems().add(menu);
         }
 
-        menuBar.getMenus().get(0).getItems().clear();
-        menuBar.getMenus().get(0).getItems().add(bigMenu);
+        var mode = new Menu("Mode");
+        var manualMode = new MenuItem("Manual");
+        manualMode.setOnAction(event -> {
+            move.setMode(MANUAL_MODE);
+            gridInit(board.getPositions().length);
+        });
+
+        var automateMode = new MenuItem("Automate");
+        automateMode.setOnAction(event -> {
+            move.setMode(AUTOMATE_MODE);
+            gridInit(board.getPositions().length);
+        });
+        mode.getItems().addAll(manualMode, automateMode);
+
         menuBar.getMenus().get(1).getItems().get(0).setOnAction(event -> {
             Alerts.popAboutWindow();
         });
+        menuBar.getMenus().get(0).getItems().clear();
+        menuBar.getMenus().get(0).getItems().addAll(bigMenu, mode);
     }
 
     public void resetBoard(ActionEvent actionEvent) {
