@@ -51,9 +51,6 @@ public class Minimax {
             return maximizingPlayer == Constants.CIRCLE_PLAYER ? -Float.MAX_VALUE : Float.MAX_VALUE;
         }
 
-        if (!Results.ifGameIsOver(board)){
-            throw new IllegalStateException("Winner: " + winner + " ifGameIsOver: " + Results.ifGameIsOver(board));
-        }
         return 0;
     }
 

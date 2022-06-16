@@ -62,11 +62,12 @@ public class Results {
             }
             sameValue++;
         }
-        return sameValue == 3 ? rightDiagonalPlayer : -1;
+        return sameValue == rowLength ? rightDiagonalPlayer : -1;
     }
 
     public static int checkLeftDiagonal(@NotNull Board board){
-        var step = (int) (Math.sqrt(board.getPositions().length)) + 1;
+        var rowLength = (int) (Math.sqrt(board.getPositions().length));
+        var step = rowLength + 1;
         var leftDiagonalPlayer = board.getPosition(0);
         var sameValue = 1;
 
@@ -76,7 +77,7 @@ public class Results {
             }
             sameValue++;
         }
-        return sameValue == 3 ? leftDiagonalPlayer : -1;
+        return sameValue == rowLength ? leftDiagonalPlayer : -1;
     }
 
     public static int checkRows(@NotNull Board board){

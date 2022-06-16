@@ -2,20 +2,25 @@ package pl.edu.pw.ee.tictactoe;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import org.jetbrains.annotations.NotNull;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.RowConstraints;
 
-import java.util.Objects;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class MainController {
+import static pl.edu.pw.ee.tictactoe.Constants.AUTOMATE_MODE;
+import static pl.edu.pw.ee.tictactoe.Constants.MANUAL_MODE;
+import static pl.edu.pw.ee.tictactoe.Images.BLANK_IMAGE;
+
+public class MainController implements Initializable {
     @FXML
     public Button resetButton;
-    private Image blank;
     private boolean[] used;
     private ImageView[] images;
     private Board board;
@@ -23,22 +28,30 @@ public class MainController {
     private Label titleLabel;
     @FXML
     private GridPane gameBoard;
+    @FXML
+    private MenuBar menuBar;
+    private int sideLength;
+    private Movement move;
 
-    public void initialize(){
-        blank = new Image(Objects.requireNonNull(getClass().getResource("img/blank.png")).toString());
-        used = new boolean[9];
-        board = new Board();
-        images = new ImageView[9];
+    @Override
+    public void initialize(URL location, ResourceBundle resources){
+        var size = 9;
+        sideLength = (int) Math.sqrt(size);
 
         titleLabel.setText("Tic-Tac-Toe");
-        MainController.gridInit(images, gameBoard, blank, board.getPositions().length);
+        initMenuBar();
+        gridInit(size);
+        move = new Movement();
 
         gameBoard.setOnMouseClicked(event -> {
             var source = (Node) event.getTarget();
-            var index = 3 * GridPane.getRowIndex(source) + GridPane.getColumnIndex(source);
+            if (!(source instanceof ImageView)){
+                return;
+            }
+            var index = sideLength * GridPane.getRowIndex(source) + GridPane.getColumnIndex(source);
 
             if (used[index] && !Results.ifGameIsOver(board)){
-                Alerts.pupWrongPositionAlert();
+                Alerts.popWrongPositionAlert();
                 return;
             }
             if (used[index] && Results.ifGameIsOver(board)){
@@ -46,29 +59,87 @@ public class MainController {
                 return;
             }
 
-            Moves.makeUserMove(images, index, board, used);
+            move.makeUserMove(images, index, board, used);
             Results.checkIfResulted(board, used);
 
-            Moves.makeComputerMove(board, images, used);
-            Results.checkIfResulted(board, used);
+            if (!move.getMode() && !Results.ifGameIsOver(board)) {
+                move.makeComputerMove(board, images, used);
+                Results.checkIfResulted(board, used);
+            }
         });
     }
 
-    public static void gridInit(ImageView @NotNull [] images, GridPane gameBoard, Image blank, int length){
-        var rowLength = (int) Math.sqrt(length);
+    public void gridInit(int length){
+        used = new boolean[length];
+        board = new Board(length);
+        images = new ImageView[length];
+
+        gameBoard.getChildren().clear();
+        gameBoard.getRowConstraints().clear();
+        gameBoard.getColumnConstraints().clear();
+        gameBoard.setGridLinesVisible(false);
+
+        for (int i = 0; i < sideLength; i++){
+            var col = new ColumnConstraints();
+            col.setHgrow(Priority.ALWAYS);
+            gameBoard.getColumnConstraints().add(i, col);
+
+            var row = new RowConstraints();
+            row.setVgrow(Priority.ALWAYS);
+            gameBoard.getRowConstraints().add(i, row);
+        }
 
         for (int i = 0; i < images.length; i++){
             images[i] = new ImageView();
-            images[i].setImage(blank);
-            gameBoard.add(images[i], i % rowLength,i / rowLength);
+            images[i].setFitHeight(gameBoard.getPrefHeight() / sideLength);
+            images[i].setFitWidth(gameBoard.getPrefWidth() / sideLength);
+            images[i].setImage(BLANK_IMAGE);
+            gameBoard.add(images[i], i % sideLength,i / sideLength);
         }
         gameBoard.setGridLinesVisible(true);
+    }
+
+    public void initMenuBar(){
+        var bigMenu = new Menu();
+        bigMenu.setText("GridSize");
+
+        for (int i = 0; i < 8; i++){
+            var menu = new MenuItem();
+            final var index = i + 3;
+
+            menu.setText(index + "x" + index);
+            menu.setOnAction(event -> {
+                sideLength = index;
+                gridInit((index) * (index));
+            });
+            bigMenu.getItems().add(menu);
+        }
+
+        var mode = new Menu("Mode");
+        var manualMode = new MenuItem("Manual");
+        manualMode.setOnAction(event -> {
+            move.setMode(MANUAL_MODE);
+            gridInit(board.getPositions().length);
+        });
+
+        var automateMode = new MenuItem("Automate");
+        automateMode.setOnAction(event -> {
+            move.setMode(AUTOMATE_MODE);
+            gridInit(board.getPositions().length);
+        });
+        mode.getItems().addAll(manualMode, automateMode);
+
+        menuBar.getMenus().get(1).getItems().get(0).setOnAction(event -> {
+            Alerts.popAboutWindow();
+        });
+        menuBar.getMenus().get(0).getItems().clear();
+        menuBar.getMenus().get(0).getItems().addAll(bigMenu, mode);
     }
 
     public void resetBoard(ActionEvent actionEvent) {
         for (int i = 0; i < used.length; i++){
             used[i] = false;
-            images[i].setImage(blank);
+            images[i].setImage(BLANK_IMAGE);
             board.resetPosition(i);
         }
     }

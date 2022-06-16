@@ -8,6 +8,10 @@
     -fx-text-fill: white;
 }
 
+#menuBar{
+    -fx-background-color: #157abd;
+}
+
 #resetButton{
     -fx-color: #3db0fc;
     -fx-font-family: 'Aldrich', sans-serif;
