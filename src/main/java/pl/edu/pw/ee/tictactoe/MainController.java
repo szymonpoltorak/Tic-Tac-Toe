@@ -62,7 +62,7 @@ public class MainController implements Initializable {
             move.makeUserMove(images, index, board, used);
             Results.checkIfResulted(board, used);
 
-            if (!move.getMode()) {
+            if (!move.getMode() && !Results.ifGameIsOver(board)) {
                 move.makeComputerMove(board, images, used);
                 Results.checkIfResulted(board, used);
             }
