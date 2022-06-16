@@ -26,14 +26,14 @@
       </GridPane>
       <Label fx:id="titleLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="322.0" layoutY="42.0" prefHeight="70.0" prefWidth="638.0" />
       <Button fx:id="resetButton" layoutX="587.0" layoutY="643.0" mnemonicParsing="false" onAction="#resetBoard" prefHeight="47.0" prefWidth="109.0" text="Reset" />
-      <MenuBar fx:id="menuBar" layoutY="0.0" prefHeight="15.0" prefWidth="1280.0">
+      <MenuBar fx:id="menuBar" prefHeight="25.0" prefWidth="128.0">
         <menus>
           <Menu mnemonicParsing="false" text="Options">
             <items>
               <MenuItem mnemonicParsing="false" text="GridSize" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Help">
+          <Menu mnemonicParsing="false" text="Author">
             <items>
               <MenuItem mnemonicParsing="false" text="About" />
             </items>

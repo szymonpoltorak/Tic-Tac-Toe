@@ -67,7 +67,7 @@ public class Minimax {
 
             var child = new Board(board);
             child.setPosition(i, player);
-            var eval = Minimax.minimax(child, 11, alpha, beta, Constants.CROSS_PLAYER);
+            var eval = Minimax.minimax(child, 9, alpha, beta, Constants.CROSS_PLAYER);
 
             if (max < eval) {
                 max = eval;

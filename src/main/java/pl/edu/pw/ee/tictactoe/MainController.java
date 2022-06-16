@@ -2,23 +2,23 @@ package pl.edu.pw.ee.tictactoe;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuBar;
-import javafx.scene.image.Image;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 
-import java.util.Objects;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class MainController {
+import static pl.edu.pw.ee.tictactoe.Images.BLANK_IMAGE;
+
+public class MainController implements Initializable {
     @FXML
     public Button resetButton;
-    private Image blank;
     private boolean[] used;
     private ImageView[] images;
     private Board board;
@@ -28,21 +28,23 @@ public class MainController {
     private GridPane gameBoard;
     @FXML
     private MenuBar menuBar;
+    private int sideLength;
 
-    public void initialize(){
+    @Override
+    public void initialize(URL location, ResourceBundle resources){
         var size = 9;
-        var rowLength = (int) Math.sqrt(size);
-        blank = new Image(Objects.requireNonNull(getClass().getResource("img/blank.png")).toString());
-        used = new boolean[size];
-        board = new Board(size);
-        images = new ImageView[size];
+        sideLength = (int) Math.sqrt(size);
 
         titleLabel.setText("Tic-Tac-Toe");
-        gridInit(board.getPositions().length);
+        initMenuBar();
+        gridInit(size);
 
         gameBoard.setOnMouseClicked(event -> {
             var source = (Node) event.getTarget();
-            var index = rowLength * GridPane.getRowIndex(source) + GridPane.getColumnIndex(source);
+            if (source == null){
+                return;
+            }
+            var index = sideLength * GridPane.getRowIndex(source) + GridPane.getColumnIndex(source);
 
             if (used[index] && !Results.ifGameIsOver(board)){
                 Alerts.pupWrongPositionAlert();
@@ -62,36 +64,59 @@ public class MainController {
     }
 
     public void gridInit(int length){
-        var rowLength = (int) Math.sqrt(length);
+        used = new boolean[length];
+        board = new Board(length);
+        images = new ImageView[length];
+
+        gameBoard.getChildren().clear();
         gameBoard.getRowConstraints().clear();
         gameBoard.getColumnConstraints().clear();
+        gameBoard.setGridLinesVisible(false);
 
-        for (int i = 0; i < rowLength; i++){
+        for (int i = 0; i < sideLength; i++){
             var col = new ColumnConstraints();
             col.setHgrow(Priority.ALWAYS);
-            gameBoard.getColumnConstraints().add(col);
-        }
+            gameBoard.getColumnConstraints().add(i, col);
 
-        for (int i = 0; i < rowLength; i++){
             var row = new RowConstraints();
             row.setVgrow(Priority.ALWAYS);
-            gameBoard.getRowConstraints().add(row);
+            gameBoard.getRowConstraints().add(i, row);
         }
 
         for (int i = 0; i < images.length; i++){
             images[i] = new ImageView();
-            images[i].setFitHeight(gameBoard.getPrefHeight() / rowLength);
-            images[i].setFitWidth(gameBoard.getPrefWidth() / rowLength);
-            images[i].setImage(blank);
-            gameBoard.add(images[i], i % rowLength,i / rowLength);
+            images[i].setFitHeight(gameBoard.getPrefHeight() / sideLength);
+            images[i].setFitWidth(gameBoard.getPrefWidth() / sideLength);
+            images[i].setImage(BLANK_IMAGE);
+            gameBoard.add(images[i], i % sideLength,i / sideLength);
         }
         gameBoard.setGridLinesVisible(true);
+    }
+
+    public void initMenuBar(){
+        var bigMenu = new Menu();
+        bigMenu.setText("GridSize");
+
+        for (int i = 0; i < 8; i++){
+            var menu = new MenuItem();
+            final var index = i + 3;
+
+            menu.setText(index + "x" + index);
+            menu.setOnAction(event -> {
+                sideLength = index;
+                gridInit((index) * (index));
+            });
+            bigMenu.getItems().add(menu);
+        }
+
+        menuBar.getMenus().get(0).getItems().clear();
+        menuBar.getMenus().get(0).getItems().add(bigMenu);
     }
 
     public void resetBoard(ActionEvent actionEvent) {
         for (int i = 0; i < used.length; i++){
             used[i] = false;
-            images[i].setImage(blank);
+            images[i].setImage(BLANK_IMAGE);
             board.resetPosition(i);
         }
     }
