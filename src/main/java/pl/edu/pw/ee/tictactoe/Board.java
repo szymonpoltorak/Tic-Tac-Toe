@@ -8,8 +8,8 @@ import java.util.Arrays;
 public class Board {
     private final int[] positions;
 
-    public Board(){
-        this.positions = new int[9];
+    public Board(int size){
+        this.positions = new int[size];
     }
 
     public Board(@NotNull Board board){
