@@ -47,7 +47,7 @@ public class MainController implements Initializable {
             var index = sideLength * GridPane.getRowIndex(source) + GridPane.getColumnIndex(source);
 
             if (used[index] && !Results.ifGameIsOver(board)){
-                Alerts.pupWrongPositionAlert();
+                Alerts.popWrongPositionAlert();
                 return;
             }
             if (used[index] && Results.ifGameIsOver(board)){
@@ -111,6 +111,9 @@ public class MainController implements Initializable {
 
         menuBar.getMenus().get(0).getItems().clear();
         menuBar.getMenus().get(0).getItems().add(bigMenu);
+        menuBar.getMenus().get(1).getItems().get(0).setOnAction(event -> {
+            Alerts.popAboutWindow();
+        });
     }
 
     public void resetBoard(ActionEvent actionEvent) {

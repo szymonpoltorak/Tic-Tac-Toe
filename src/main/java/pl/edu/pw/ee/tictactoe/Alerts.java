@@ -7,12 +7,12 @@ public class Alerts {
 
     private Alerts(){}
 
-    public static void pupWrongPositionAlert(){
+    public static void popWrongPositionAlert(){
         var alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(WARNING);
         alert.setHeaderText("Wrong position");
         alert.setContentText("This place was already taken! Choose another one!");
-        alert.show();
+        alert.showAndWait();
     }
 
     public static void popGameOverAlert(){
@@ -20,6 +20,14 @@ public class Alerts {
         alert.setTitle(WARNING);
         alert.setHeaderText("The Game is already over.");
         alert.setContentText("Please reset the board to play again!");
-        alert.show();
+        alert.showAndWait();
+    }
+
+    public static void popAboutWindow(){
+        var alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("About");
+        alert.setHeaderText("Szymon Półtorak");
+        alert.setContentText("Github: https://github.com/szymonpoltorak");
+        alert.showAndWait();
     }
 }
