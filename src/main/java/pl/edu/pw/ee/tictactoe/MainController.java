@@ -30,13 +30,11 @@ public class MainController implements Initializable {
     private GridPane gameBoard;
     @FXML
     private MenuBar menuBar;
-    private int sideLength;
     private Movement move;
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
         var size = 9;
-        sideLength = (int) Math.sqrt(size);
 
         titleLabel.setText("Tic-Tac-Toe");
         initMenuBar();
@@ -48,7 +46,7 @@ public class MainController implements Initializable {
             if (!(source instanceof ImageView)){
                 return;
             }
-            var index = sideLength * GridPane.getRowIndex(source) + GridPane.getColumnIndex(source);
+            var index = board.getSideLength() * GridPane.getRowIndex(source) + GridPane.getColumnIndex(source);
 
             if (used[index] && !Results.ifGameIsOver(board)){
                 Alerts.popWrongPositionAlert();
@@ -72,6 +70,7 @@ public class MainController implements Initializable {
     public void gridInit(int length){
         used = new boolean[length];
         board = new Board(length);
+        var sideLength = board.getSideLength();
         images = new ImageView[length];
 
         gameBoard.getChildren().clear();
@@ -109,7 +108,6 @@ public class MainController implements Initializable {
 
             menu.setText(index + "x" + index);
             menu.setOnAction(event -> {
-                sideLength = index;
                 gridInit((index) * (index));
             });
             bigMenu.getItems().add(menu);

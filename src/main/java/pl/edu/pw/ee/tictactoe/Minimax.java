@@ -7,16 +7,16 @@ import static pl.edu.pw.ee.tictactoe.Constants.*;
 public class Minimax {
     private Minimax(){}
 
-    public static float minimax(Board board, int depth, float alpha, float beta, boolean maximizingPlayer){
+    public static float minimax(Board board, int depth, float alpha, float beta, boolean maximizingPlayer, Eval evaluator){
         if (depth == 0 || Results.ifGameIsOver(board)){
-            return Evaluation.evaluatePosition(board);
+            return evaluator.evaluatePosition(board);
         }
 
         if (maximizingPlayer == CIRCLE_PLAYER){
             var maxEval = -Float.MAX_VALUE;
 
             for (Board child : board.makeChildren(CROSS)){
-                var movementEval = minimax(child, depth - 1, alpha, beta, CROSS_PLAYER);
+                var movementEval = minimax(child, depth - 1, alpha, beta, CROSS_PLAYER, evaluator);
                 maxEval = Math.max(maxEval, movementEval);
                 alpha = Math.max(alpha, movementEval);
 
@@ -30,7 +30,7 @@ public class Minimax {
             var minEval = Float.MAX_VALUE;
 
             for (Board child : board.makeChildren(CIRCLE)){
-                var movementEval = minimax(child, depth - 1, alpha, beta, CIRCLE_PLAYER);
+                var movementEval = minimax(child, depth - 1, alpha, beta, CIRCLE_PLAYER, evaluator);
                 minEval = Math.min(minEval, movementEval);
                 beta = Math.min(beta, movementEval);
 
@@ -55,8 +55,10 @@ public class Minimax {
             }
 
             var child = new Board(board);
+            var evaluator = new Evaluation(board.getSideLength());
             child.setPosition(i, player);
-            var eval = Minimax.minimax(child, 9, alpha, beta, CROSS_PLAYER);
+
+            var eval = Minimax.minimax(child, 9, alpha, beta, CROSS_PLAYER, evaluator);
 
             if (max < eval) {
                 max = eval;

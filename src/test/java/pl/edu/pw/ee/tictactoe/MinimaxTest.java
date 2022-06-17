@@ -8,10 +8,12 @@ import static pl.edu.pw.ee.tictactoe.Constants.*;
 
 class MinimaxTest {
     private Board board;
+    private Eval eval;
 
     @BeforeEach
     public void makeBoard(){
         this.board = new Board(9);
+        this.eval = new Evaluation(board.getSideLength());
     }
 
     @Test
@@ -39,7 +41,7 @@ class MinimaxTest {
         board.setPosition(6, CROSS);
 
         //when
-        float result = Evaluation.evaluatePosition(board);
+        float result = eval.evaluatePosition(board);
 
         //then
         Assertions.assertEquals(expected, result);
@@ -54,7 +56,7 @@ class MinimaxTest {
         board.setPosition(6, CIRCLE);
 
         //when
-        float result = Evaluation.evaluatePosition(board);
+        float result = eval.evaluatePosition(board);
 
         //then
         Assertions.assertEquals(expected, result);
