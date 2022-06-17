@@ -7,18 +7,25 @@ import java.util.Arrays;
 
 public class Board {
     private final int[] positions;
+    private final int sideLength;
 
     public Board(int size){
         this.positions = new int[size];
+        this.sideLength = (int) Math.sqrt(size);
     }
 
     public Board(@NotNull Board board){
         this.positions = new int[board.getPositions().length];
+        this.sideLength = board.getSideLength();
         System.arraycopy(board.getPositions(), 0, this.positions, 0, board.getPositions().length);
     }
 
     public int getPosition(int index) {
         return positions[index];
+    }
+
+    public int getSideLength(){
+        return sideLength;
     }
 
     public int[] getPositions(){
@@ -38,7 +45,7 @@ public class Board {
     }
 
     public Board[] makeChildren(int player){
-        int blankSquares = 0;
+        var blankSquares = 0;
 
         for (int position : positions) {
             if (position == 0) {
@@ -54,7 +61,6 @@ public class Board {
                 children[j++].setPosition(i, player);
             }
         }
-
         return children;
     }
 

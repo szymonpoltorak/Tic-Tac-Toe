@@ -12,7 +12,7 @@ class ResultsTest {
 
     @BeforeEach
     public void makeBoard(){
-        this.board = new Board();
+        this.board = new Board(9);
     }
 
     @Test

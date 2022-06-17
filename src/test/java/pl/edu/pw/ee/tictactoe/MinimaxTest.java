@@ -11,65 +11,34 @@ class MinimaxTest {
 
     @BeforeEach
     public void makeBoard(){
-        this.board = new Board();
+        this.board = new Board(9);
     }
 
     @Test
     void getBestMove_test(){
         //given
-        int expected = 3;
+        var expected = 6;
         board.setPosition(0, CROSS);
         board.setPosition(4, CROSS);
         board.setPosition(1, CIRCLE);
         board.setPosition(2, CIRCLE);
 
         //when
-        int result = Minimax.getBestMove(board, CROSS);
+        var result = Minimax.getBestMove(board, CROSS);
 
         //then
         Assertions.assertEquals(expected, result);
     }
 
     @Test
-    void evaluatePosition_cross_player_wins(){
+    void count_depth_test(){
         //given
-        float expected = Float.MAX_VALUE;
-        board.setPosition(2, CROSS);
-        board.setPosition(4, CROSS);
-        board.setPosition(6, CROSS);
+        var expected = Minimax.countDepth(board);
 
         //when
-        float result = Minimax.evaluatePosition(board, CROSS_PLAYER);
+        var result = 10;
 
         //then
         Assertions.assertEquals(expected, result);
-    }
-
-    @Test
-    void evaluatePosition_circle_player_wins(){
-        //given
-        float expected = Float.MAX_VALUE;
-        board.setPosition(2, CIRCLE);
-        board.setPosition(4, CIRCLE);
-        board.setPosition(6, CIRCLE);
-
-        //when
-        float result = Minimax.evaluatePosition(board, CROSS_PLAYER);
-
-        //then
-        Assertions.assertEquals(expected, result);
-    }
-
-    @Test
-    void evaluatePosition_test_exception(){
-        //given
-        board.setPosition(2, CIRCLE);
-        board.setPosition(4, CIRCLE);
-        board.setPosition(6, CROSS);
-
-        //when
-
-        //then
-        Assertions.assertThrows(IllegalStateException.class, () -> Minimax.evaluatePosition(board, CROSS_PLAYER));
     }
 }

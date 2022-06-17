@@ -50,7 +50,7 @@ public class Results {
     }
 
     public static int checkRightDiagonal(@NotNull Board board){
-        var rowLength = (int) (Math.sqrt(board.getPositions().length));
+        var rowLength = board.getSideLength();
         var step = rowLength - 1;
         var rightDiagonalPlayer = board.getPosition(step);
         var sameValue = 1;
@@ -66,7 +66,7 @@ public class Results {
     }
 
     public static int checkLeftDiagonal(@NotNull Board board){
-        var rowLength = (int) (Math.sqrt(board.getPositions().length));
+        var rowLength = board.getSideLength();
         var step = rowLength + 1;
         var leftDiagonalPlayer = board.getPosition(0);
         var sameValue = 1;
@@ -81,7 +81,7 @@ public class Results {
     }
 
     public static int checkRows(@NotNull Board board){
-        var rowLength = (int) (Math.sqrt(board.getPositions().length));
+        var rowLength = board.getSideLength();
 
         for (int i = 0; i < board.getPositions().length; i += rowLength) {
             var rowsPlayer = board.getPosition(i);
@@ -101,7 +101,7 @@ public class Results {
     }
 
     public static int checkColumns(@NotNull Board board){
-        var rowLength = (int) (Math.sqrt(board.getPositions().length));
+        var rowLength = board.getSideLength();
 
         for (int i = 0; i < rowLength; i++) {
             var columnPlayer = board.getPosition(i);

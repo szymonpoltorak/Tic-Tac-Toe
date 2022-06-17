@@ -38,14 +38,14 @@ public class Movement {
     }
 
     public void makeComputerMove(Board board, ImageView[] images, boolean[] used){
-        var bestIndex = Minimax.getBestMove(board, Constants.CROSS);
+        var bestIndex = Minimax.getBestMove(board, CROSS);
 
         if (bestIndex == -1 || used[bestIndex]){
             return;
         }
 
         images[bestIndex].setImage(CROSS_IMAGE);
-        board.setPosition(bestIndex, Constants.CROSS);
+        board.setPosition(bestIndex, CROSS);
         used[bestIndex] = true;
     }
 }
