@@ -11,6 +11,7 @@ mode. You need to have in mind the fact that higher maps will take more for comp
 * JDK 17.03 LTS,
 * Apache Maven 3.8.1,
 * Java FX 18.0.1,
+* JUnit 5.8.2,
 * Css.
 
 # ScreenShots
