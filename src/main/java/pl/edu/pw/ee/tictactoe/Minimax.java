@@ -45,23 +45,22 @@ public class Minimax {
         throw new IllegalStateException("No idea how i got here");
     }
 
-    private static int countDepth(@NotNull Board board){
+    public static int countDepth(@NotNull Board board){
         final int freeSquaresAtStart = (int) Arrays.stream(board.getPositions()).filter(tile -> tile == 0).count();
-        final long stepsCountLimit = 1000000;
+        final long stepsCountLimit = 1_000_000;
         var freeSquares = freeSquaresAtStart;
         var depth = 0;
         long stepsTaken = 1;
 
         while(freeSquares >= 0) {
-            long newStepsTaken = stepsTaken * freeSquares;
+            long newStepsTaken = stepsTaken * (freeSquares--);
 
-            if(newStepsTaken > stepsCountLimit)
+            if(newStepsTaken > stepsCountLimit) {
                 break;
+            }
             depth++;
-            freeSquares--;
             stepsTaken = newStepsTaken;
         }
-        System.out.println("Depth: " + depth + " Steps taken: " + stepsTaken);
         return depth;
     }
 
@@ -79,7 +78,6 @@ public class Minimax {
             var child = new Board(board);
             var evaluator = new Evaluation(board.getSideLength());
             child.setPosition(i, player);
-
             var eval = Minimax.minimax(child, countDepth(board), alpha, beta, CROSS_PLAYER, evaluator);
 
             if (max < eval) {
