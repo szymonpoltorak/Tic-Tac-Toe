@@ -37,14 +37,13 @@ public class Evaluation implements Eval {
     }
 
     public float evaluateColumns(@NotNull Board board){
-        var columnSize = (int) Math.sqrt(board.getPositions().length);
         var columnEvaluation = 0;
 
-        for (int i = 0; i < columnSize; i++){
+        for (int i = 0; i < sideLength; i++){
             var computer = 0;
             var player = 0;
 
-            for (int j = i; j < board.getPositions().length; j += columnSize){
+            for (int j = i; j < board.getPositions().length; j += sideLength){
                 if (board.getPosition(j) == CIRCLE){
                     player++;
                 }
