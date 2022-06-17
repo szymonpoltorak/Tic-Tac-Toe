@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static pl.edu.pw.ee.tictactoe.Constants.CIRCLE;
 import static pl.edu.pw.ee.tictactoe.Constants.CROSS;
 
 class BoardTest {
@@ -35,5 +36,19 @@ class BoardTest {
 
         //then
         Assertions.assertEquals(board, newBoard);
+    }
+
+    @Test
+    void board_reset_position(){
+        //given
+        var expected = 0;
+        board.setPosition(0, CIRCLE);
+
+        //when
+        board.resetPosition(0);
+        var result = board.getPosition(0);
+
+        //then
+        Assertions.assertEquals(expected, result);
     }
 }

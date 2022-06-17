@@ -7,6 +7,8 @@ import java.util.Arrays;
 import static pl.edu.pw.ee.tictactoe.Constants.*;
 
 public class Minimax {
+    private static final long STEPS_COUNT_LIMIT = 1_000_000;
+
     private Minimax(){}
 
     public static float minimax(Board board, int depth, float alpha, float beta, boolean maximizingPlayer, Eval evaluator){
@@ -46,16 +48,14 @@ public class Minimax {
     }
 
     public static int countDepth(@NotNull Board board){
-        final int freeSquaresAtStart = (int) Arrays.stream(board.getPositions()).filter(tile -> tile == 0).count();
-        final long stepsCountLimit = 1_000_000;
-        var freeSquares = freeSquaresAtStart;
+        var freeSquares = (int) Arrays.stream(board.getPositions()).filter(tile -> tile == 0).count();
         var depth = 0;
         long stepsTaken = 1;
 
         while(freeSquares >= 0) {
             long newStepsTaken = stepsTaken * (freeSquares--);
 
-            if(newStepsTaken > stepsCountLimit) {
+            if(newStepsTaken > STEPS_COUNT_LIMIT) {
                 break;
             }
             depth++;
