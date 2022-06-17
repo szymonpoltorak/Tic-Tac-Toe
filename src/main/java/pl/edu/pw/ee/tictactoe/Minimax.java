@@ -2,6 +2,8 @@ package pl.edu.pw.ee.tictactoe;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+
 import static pl.edu.pw.ee.tictactoe.Constants.*;
 
 public class Minimax {
@@ -43,6 +45,26 @@ public class Minimax {
         throw new IllegalStateException("No idea how i got here");
     }
 
+    private static int countDepth(@NotNull Board board){
+        final int freeSquaresAtStart = (int) Arrays.stream(board.getPositions()).filter(tile -> tile == 0).count();
+        final long stepsCountLimit = 1000000;
+        var freeSquares = freeSquaresAtStart;
+        var depth = 0;
+        long stepsTaken = 1;
+
+        while(freeSquares >= 0) {
+            long newStepsTaken = stepsTaken * freeSquares;
+
+            if(newStepsTaken > stepsCountLimit)
+                break;
+            depth++;
+            freeSquares--;
+            stepsTaken = newStepsTaken;
+        }
+        System.out.println("Depth: " + depth + " Steps taken: " + stepsTaken);
+        return depth;
+    }
+
     public static int getBestMove(@NotNull Board board, int player) {
         var max = -Float.MAX_VALUE;
         var alpha = -Float.MAX_VALUE;
@@ -58,7 +80,7 @@ public class Minimax {
             var evaluator = new Evaluation(board.getSideLength());
             child.setPosition(i, player);
 
-            var eval = Minimax.minimax(child, 9, alpha, beta, CROSS_PLAYER, evaluator);
+            var eval = Minimax.minimax(child, countDepth(board), alpha, beta, CROSS_PLAYER, evaluator);
 
             if (max < eval) {
                 max = eval;
