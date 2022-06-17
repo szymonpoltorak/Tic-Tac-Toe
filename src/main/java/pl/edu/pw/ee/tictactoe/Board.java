@@ -38,7 +38,7 @@ public class Board {
     }
 
     public Board[] makeChildren(int player){
-        int blankSquares = 0;
+        var blankSquares = 0;
 
         for (int position : positions) {
             if (position == 0) {
@@ -54,7 +54,6 @@ public class Board {
                 children[j++].setPosition(i, player);
             }
         }
-
         return children;
     }
 

@@ -11,7 +11,7 @@ class BoardTest {
 
     @BeforeEach
     public void makeBoard(){
-        board = new Board();
+        board = new Board(9);
     }
 
     @Test

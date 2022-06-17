@@ -9,7 +9,7 @@ public class Minimax {
 
     public static float minimax(Board board, int depth, float alpha, float beta, boolean maximizingPlayer){
         if (depth == 0 || Results.ifGameIsOver(board)){
-            return Minimax.evaluatePosition(board, maximizingPlayer);
+            return Evaluation.evaluatePosition(board);
         }
 
         if (maximizingPlayer == CIRCLE_PLAYER){
@@ -41,19 +41,6 @@ public class Minimax {
             return minEval;
         }
         throw new IllegalStateException("No idea how i got here");
-    }
-
-    public static float evaluatePosition(Board board, boolean maximizingPlayer){
-        var winner = Results.isResulted(board);
-
-        if (winner == CROSS){
-            return maximizingPlayer == CROSS_PLAYER ? Float.MAX_VALUE : -Float.MAX_VALUE;
-        }
-        else if (winner == CIRCLE){
-            return maximizingPlayer == CIRCLE_PLAYER ? -Float.MAX_VALUE : Float.MAX_VALUE;
-        }
-
-        return 0;
     }
 
     public static int getBestMove(@NotNull Board board, int player) {
